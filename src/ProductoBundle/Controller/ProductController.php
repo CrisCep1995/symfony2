@@ -5,28 +5,29 @@ namespace ProductoBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class DefaultController extends Controller
+class ProductController extends Controller
 {
-    /**
-     * @Route("/product/list", name="product_list")
+	/**
+     * @Route("/product/view/{id}", name="product_view")
      */
-    public function indexAction()
+    public function verProducto($id)
     {
 
-    	$productos = $this->getDoctrine()
+    	$producto = $this->getDoctrine()
     	->getRepository('ProductoBundle:Producto')
-    	->findAll();
+    	->find($id);
 		//return var_dump($productos);
         return $this->render(
-            /*'Producto:index.html.twig'*/
-            'ProductoBundle:Default:index.html.twig',
+            
+            'ProductoBundle:Default:view.html.twig',
 
             [
-                'productos' => $productos
+                'producto' => $producto
             ]
             //return var_dump($productos);
         );
+        //return var_dump($producto);
             
     }
-
+    
 }
