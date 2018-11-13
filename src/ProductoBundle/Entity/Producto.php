@@ -10,8 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="producto")
  * @ORM\Entity(repositoryClass="ProductoBundle\Repository\ProductoRepository")
  */
-class Producto
+class Producto implements \JsonSerializable
 {
+
+    public function JsonSerialize()
+        {
+            return [
+                'id' =>$this->getId(),
+                'name' =>$this->getName(),
+                'price' =>$this->getPrice(),
+                'stock' =>$this->getStock()
+            ];
+        }
     /**
      * @var int
      *

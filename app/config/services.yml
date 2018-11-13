@@ -7,3 +7,9 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+   app.session:
+      class: symfony\component\httpFoundation\Session\Session
+      callMethod: 'Start'
+   app.cart:
+      class: ecommarg\cart\cart
+      arguments: ['@app.session'] 

@@ -12,11 +12,14 @@ class ProductController extends Controller
      */
     public function verProducto($id)
     {
-
+        new \ecommarg\cart\Cart();
+        /*var_dump($this->get('app.session'));
+        die();*/
     	$producto = $this->getDoctrine()
     	->getRepository('ProductoBundle:Producto')
     	->find($id);
-		//return var_dump($productos);
+        //echo json_encode($producto);
+        //die();
         return $this->render(
             
             'ProductoBundle:Default:view.html.twig',
