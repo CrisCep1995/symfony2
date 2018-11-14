@@ -1,9 +1,10 @@
 <?php 
-	namespace ecommarg\cart;
+namespace ecommarg\cart;
 
-	interface ProductInterface extends \JsonSerializable
-	{
-	
-		Public function getId();
+Interface ProductInterface extends \JsonSerializable{
 
-	}
+	public function getId();
+
+
+}
+

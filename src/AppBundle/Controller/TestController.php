@@ -6,28 +6,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class TestController extends Controller
-{	
+{
+
 	/**
-	*@Route("/test", name ="AppBundle:TestController:indexAction")
+	* @Route("/test",name="AppBundle:TestController:indexAction")
 	*/
-		public function indexAction(){
-			return $this->render(
-				'Test/index.html.twig',
-				[
-					'nombre' => 'juan',
-					'apellido' => 'qwert',
-					'productos' =>[
-									[
-										'nombre' => 'televisor',
-										'precio' => '19000'
-									],
-									[
-										'nombre' => 'cafetera',
-										'precio' => '4500'
-									]
-								]
-				]
-				
-				);
-		}
+
+	public function indexAction()
+	{
+		return $this->render('test/index.html.twig',
+			[
+			'nombre'=>'Juan',
+			'apellido'=>'Perez',
+			'productos'=>[
+							[
+							'nombre'=>'Televisor',
+							'precio'=>'19000'
+							],
+							[
+							'nombre'=>'Cafetera',
+							'precio'=>'4500'
+							]
+						]
+			]
+			);
+	}
 }

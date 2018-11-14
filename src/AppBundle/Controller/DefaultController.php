@@ -3,10 +3,10 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as sfController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends sfController
+class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
@@ -18,6 +18,7 @@ class DefaultController extends sfController
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ));
     }
+
     /**
      * @Route("/test/{id}", name="testpage")
      */
@@ -26,5 +27,4 @@ class DefaultController extends sfController
         var_dump($id);
         die();
     }
-
 }

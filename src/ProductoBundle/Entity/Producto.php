@@ -3,6 +3,7 @@
 namespace ProductoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ecommarg\cart\ProductInterface;
 
 /**
  * Producto
@@ -10,18 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="producto")
  * @ORM\Entity(repositoryClass="ProductoBundle\Repository\ProductoRepository")
  */
-class Producto implements \JsonSerializable
+class Producto implements ProductInterface
 {
-
-    public function JsonSerialize()
-        {
-            return [
-                'id' =>$this->getId(),
-                'name' =>$this->getName(),
-                'price' =>$this->getPrice(),
-                'stock' =>$this->getStock()
-            ];
-        }
     /**
      * @var int
      *
@@ -46,7 +37,7 @@ class Producto implements \JsonSerializable
     private $price;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="stock", type="integer")
      */
@@ -128,11 +119,20 @@ class Producto implements \JsonSerializable
     /**
      * Get stock
      *
-     * @return integer
+     * @return int
      */
     public function getStock()
     {
         return $this->stock;
+    }
+
+    public function jsonSerialize(){
+        return [
+                    'id'=>$this->getID(),
+                    'name'=>$this->getName(),
+                    'price'=>$this->getPrice(),
+                    'stock'=>$this->getStock()
+                ];
     }
 }
 
