@@ -3,7 +3,8 @@
 namespace ProductoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ecommarg\cart\ProductInterface;
+use ecommarg\cart\ProductoInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Producto
@@ -11,8 +12,25 @@ use ecommarg\cart\ProductInterface;
  * @ORM\Table(name="producto")
  * @ORM\Entity(repositoryClass="ProductoBundle\Repository\ProductoRepository")
  */
-class Producto implements ProductInterface
+class Producto implements ProductoInterface
 {
+
+    /**
+    *@ORM\ManyToMany(targetEntity="Category",inversedBy="products")
+    *@ORM\JoinTable(name="product_category")
+    */
+
+    private $catergories =null;
+
+    public function __construct(){
+        $this->categories = new ArrayCollection();
+    }
+    public function getCategories(){
+
+        return $this->categories;
+
+    }
+
     /**
      * @var int
      *
@@ -43,7 +61,15 @@ class Producto implements ProductInterface
      */
     private $stock;
 
-
+    public function jsonSerialize()
+    {
+        return [
+            'id'=> $this->getId(),
+            'name'=> $this->getName(),
+            'price'=> $this->getPrice(),
+            'stock' => $this->getStock()
+        ];
+    }
     /**
      * Get id
      *
@@ -124,15 +150,6 @@ class Producto implements ProductInterface
     public function getStock()
     {
         return $this->stock;
-    }
-
-    public function jsonSerialize(){
-        return [
-                    'id'=>$this->getID(),
-                    'name'=>$this->getName(),
-                    'price'=>$this->getPrice(),
-                    'stock'=>$this->getStock()
-                ];
     }
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -18,8 +19,7 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ));
     }
-
-    /**
+     /**
      * @Route("/test/{id}", name="testpage")
      */
     public function testAction($id)
@@ -28,3 +28,4 @@ class DefaultController extends Controller
         die();
     }
 }
+?>

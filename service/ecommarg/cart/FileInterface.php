@@ -2,15 +2,12 @@
 namespace ecommarg\cart;
 use ecommarg\cart\ProductoInterface as Product;
 
-	interface SaveAdapterInterface
+	interface FileInterface
 	{
-		public function set($key, $value);
+		public function set(Product $p);
 
 		public function get($id);
-
+		
 		public function getAll();
+
 	}
-
-
-
- 

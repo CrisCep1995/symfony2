@@ -7,54 +7,48 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class ProductController extends Controller
 {
-
 	/**
-     * @Route("/product/view/{id}", name="product_view")
+     * @Route("/products/view/{id}", name="Product_view")
      */
+    public function viewAction($id)
+    {
 
-	public function productViewAction($id)
-	{
-		$this->get('app.cart');
-			$producto= $this->getDoctrine()
-    	->getRepository('ProductoBundle:Producto')
-    	->find($id);
-    	//echo json_encode($productos);
-        return $this->render('ProductoBundle:Default:view.html.twig',['producto'=>$producto]);
-	}
+    	$producto = $this->getDoctrine()-> getRepository('ProductoBundle:Producto')->find($id);
+    	// echo json_encode($producto);
+   		$this->get('app.cart');
+        return $this->render('ProductoBundle:Default:view.html.twig',
+        						['producto'=> $producto]);  
+    }
 
-	/**
-     * @Route("/product/cart/add/{id}/quantity/{quantity}", name="product_add_cart")
+    /**
+     * @Route("/products/cart/add/{id}/quantity/{quantity}", name="Product_add_cart")
      */
-
-	public function addToCartAction($id,$quantity){
-		$producto= $this->getDoctrine()
-    	->getRepository('ProductoBundle:Producto')
-    	->find($id);
-
-    	if(null===$producto){
-    		throw new \Exception("Product not found");
+    public function addToCartAction($id, $quantity)
+    {
+    	$producto = $this->getDoctrine()-> getRepository('ProductoBundle:Producto')->find($id);
+    	if(null === $producto)
+    	{
+    		throw new \Exception("Producto not found");
     	}
+    
+        $cartService = $this->get('app.cart');
 
-    	$this->get('app.cart')->add($producto);
-    	die();
-	}
+        $cartService->add($producto);
 
-	/**
-     * @Route("/product/cart/view", name="product_view_cart")
+        die();
+    }
+
+   /**
+     * @Route("/products/cart/view", name="Product_view_cart")
      */
+    public function viewCartAction()
+    {
+        $cartService = $this->get('app.cart');
+        $productos =  $cartService->getAll();
 
-	public function viewCartAction(){
-		//var_dump($this->get('app.cart')->getAll());
-		$cartService = $this->get('app.cart');
-		$Products = $cartService->getAll();
-		return $this->render(
+        return $this->render('ProductoBundle:Product:cart.html.twig',
+                                ['productos'=> $productos]);  
 
-				'ProductoBundle:Product:cart.html.twig',
-				[
-					'Products'=>$Products
-				]
-
-			);
-	}
-
+    }
 }
+

@@ -8,14 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/product/list", name="ProductoBundle:DefaultController:indexAction")
+     * @Route("/products/list", name="productlist")
      */
     public function indexAction()
     {
-    	$productos= $this->getDoctrine()
-    	->getRepository('ProductoBundle:Producto')
-    	->findAll();
-        return $this->render('ProductoBundle:Default:index.html.twig',['productos'=>$productos]);
-        
+    	$Productos = $this->getDoctrine()-> getRepository('ProductoBundle:Producto')->findAll();
+        return $this->render('producto/index.html.twig',
+        						['productos'=> $Productos]);
     }
 }
