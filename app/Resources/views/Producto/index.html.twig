@@ -9,8 +9,13 @@
 	            <img class="thumbnail" src="https://placehold.it/500x600">
 	            <h5>{{producto.getName()}}</h5>
 	            <p>Precio: ${{producto.getPrice()}}</p>
-                <p>Cantidad: {{producto.getStock()}}</p>
-	            <a href="#" class="button expanded">Buy</a>
+                <p>Stock: {{producto.getStock()}}</p>
+	            <form id="addToCart" action="{{path('Product_add_cart')}}" method="POST">
+
+                    <input type="text" name = "quantity">
+                    <input type="hidden" name = "id" value = {{producto.id}}, METHODS="POST">
+                    <input type ="submit" value= "Agregar al carrito" class="button large expanded">
+                </form>
                 <a href="{{path('Product_view',{id:producto.id})}}" class="button expanded">Ver Producto</a>
             </div>
             {%endfor%}

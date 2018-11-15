@@ -41,12 +41,9 @@ Class SessionAdapter implements SaveAdapterInterface
 		$all = $this->session
 		->getBag($this->bagName)
 		->all();
-
-		foreach($all as &$item){
-			$item = json_decode($item);
-		}
-
 		return $all;
+		
+
 	}
 
 	public function replace($array)

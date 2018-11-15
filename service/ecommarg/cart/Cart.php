@@ -13,9 +13,22 @@
 		}
 
 
-		public function add(Product $product)
+		public function add(Product $product, $quantity=1)
 		{
-			$this->adapter->set($product->getId(), json_encode($product ));
+			$quantity=(int) $quantity;
+			if($quantity <=0){
+				throw new \Exception("Cantidad Invalida");
+				
+			}
+			$this->adapter->set($product->getId(), 
+			json_encode(
+				[
+					'quantity'=>$quantity,
+					'Product'=>$product 
+				]
+					)
+			);
+
 		}
 
 		public function get($id)
@@ -25,7 +38,12 @@
 
 		public function getAll()
 		{
-			return $this->adapter->getAll();
+			$data= $this->adapter->getAll();
+			foreach ($data as &$item) {
+				$item = json_decode($item);
+			}
+			return $data;
+			//return $this->adapter->getAll();
 		}
 
 		public function replace($array)
