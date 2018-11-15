@@ -5,6 +5,7 @@ namespace ProductoBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,10 @@ class ProductController extends Controller
     	// echo json_encode($producto);
    		$this->get('app.cart');
         return $this->render('ProductoBundle:Default:view.html.twig',
-        						['producto'=> $producto]);  
+        						[
+                                    'producto'=> $producto,
+                                    'cart_config' => $this->container->getParameter('cart_config')
+                                ]);  
     }
 
     /**
@@ -27,6 +31,10 @@ class ProductController extends Controller
     //$id, $quantity
     public function addToCartAction(Request $r)
     {
+
+        $requestType = strtolower($r->headers->get('X-Requested-With'));
+        $isAjax = 'xmlhttprequest' === $requestType;
+
         $id = $r->get('id');
         $quantity = $r->get('quantity');
 
@@ -40,7 +48,18 @@ class ProductController extends Controller
 
         $cartService->add($producto);
 
-        die();
+        if(true === $isAjax){
+            $response = new Response();
+            $response->headers->add([
+                    'Content-Type'=>'application/json'
+                ]);
+            $response->setContent(json_encode($cartService->getAll()));
+            return $response;
+        }
+        $this->redirect(
+            $this->generateUrl('Product_view_cart')
+        );
+        //die();
     }
 
    /**

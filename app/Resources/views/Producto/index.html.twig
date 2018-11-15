@@ -23,4 +23,17 @@
             </div>
         </article>
 
+<script>
+  $(document).ready(function(){
+    $('#addToCart').on('submit',function(e){
+        e.preventDefault();
+        $.POST({{path('Product_add_cart')}},$(this).serialize())
+        .done(function(data){
+            alert('Se agrego el producto al carrito');
+        });
+
+      });
+    });
+  
+</script>
 {% endblock %}
