@@ -1,16 +1,12 @@
 <?php 
-namespace ecommarg\cart;
-use ecommarg\cart\ProductoInterface as Product;
+	namespace ecommarg\cart;
+	
 
 	interface SaveAdapterInterface
-	{
+	{	
+
 		public function set($key, $value);
-
-		public function get($id);
-
+		public function get($key);
 		public function getAll();
+		
 	}
-
-
-
- 

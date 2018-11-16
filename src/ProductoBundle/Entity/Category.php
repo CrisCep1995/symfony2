@@ -12,23 +12,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
-
     /**
-    *@ORM\ManyToMany(targetEntity="Producto",mappedBy="categories")
-    *@ORM\JoinTable(name="product_category")
+    *@ORM\ManyToMany(targetEntity="Producto", mappedBy="categories")
+    *@ORM\JoinTable(name="Product_category")
     */
-    private $products =null;
-    public function __construct(){
-
-        $this->products = new ArrayCollection();
+    private $products=null;
+    public function __construct()
+    {
+        $this->products= new ArrayCollection();
     }
-
-    public function getProducts(){
-
+    public function getProducts()
+    {
         return $this->products;
     }
-
-
     /**
      * @var int
      *
