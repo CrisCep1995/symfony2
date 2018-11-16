@@ -1,40 +1,43 @@
-{%extends 'base.html.twig'%}
+{% extends 'base.html.twig' %}
 
 {% block body %}
-        <article class="grid-container">
-            <div class="grid-x grid-margin-x small-up-2 medium-up-2 large-up-4">
+    <h1>Productos list</h1>
 
-            {% for producto in productos %}
-            <div class="cell">
-	            <img class="thumbnail" src="https://placehold.it/500x600">
-	            <h5>{{producto.getName()}}</h5>
-	            <p>Precio: ${{producto.getPrice()}}</p>
-                <p>Stock: {{producto.getStock()}}</p>
-	            <form id="addToCart" action="{{path('Product_add_cart')}}" method="POST">
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for producto in productos %}
+            <tr>
+                <td><a href="{{ path('producto_show', { 'id': producto.id }) }}">{{ producto.id }}</a></td>
+                <td>{{ producto.name }}</td>
+                <td>{{ producto.price }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('producto_show', { 'id': producto.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('producto_edit', { 'id': producto.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-                    <input type="text" name = "quantity">
-                    <input type="hidden" name = "id" value = {{producto.id}}, METHODS="POST">
-                    <input type ="submit" value= "Agregar al carrito" class="button large expanded">
-                </form>
-                <a href="{{path('Product_view',{id:producto.id})}}" class="button expanded">Ver Producto</a>
-            </div>
-            {%endfor%}
-
-            </div>
-        </article>
-
-<script>
-{%if 'ajax' == cart_config.buy_mode %}
-  $(document).ready(function(){
-    $('#addToCart').on('submit',function(e){
-        e.preventDefault();
-        $.POST({{path('Product_add_cart')}},$(this).serialize())
-        .done(function(data){
-            alert('Se agrego el producto al carrito');
-        });
-
-      });
-    });
-{%endif%}
-</script>
+    <ul>
+        <li>
+            <a href="{{ path('producto_new') }}">Create a new producto</a>
+        </li>
+    </ul>
 {% endblock %}
