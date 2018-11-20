@@ -48,26 +48,23 @@ class CategoryApiController extends Controller
         $form->handleRequest($request);
 
 
+        if(!$form->isValid()){
 
-        if($form->gerErrors() != 200){
-        $errors=[];
-        foreach($form->getErrors() as $error){
+            $response=new Response();
+            $response->setStatus(403);
+            $errors=[];
+            foreach($form->getErrors() as $error){
 
-            $error[]=$error->getMessage();
-
-        }
-        $response=new Response();
-            $response->setStatus(405);
-            $response->setContent(json_encode($$errors));
-            
-            return $response;
-
+                $error[]=$error->getMessage();
+            }
+            return $errors;
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
 
+            
             $response=new Response();
             $response->headers->add([
                 'Content-Type'=>'application/json'

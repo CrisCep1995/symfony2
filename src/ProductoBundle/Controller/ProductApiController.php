@@ -37,9 +37,9 @@ class ProductApiController extends Controller
      * @Route("/product/api/product/new", name="product_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $r)
     {
-        $producto = new Producto();
+       /* $producto = new Producto();
         $form = $this->createForm('ProductoBundle\Form\ProductoApiType', $producto);
         $form->handleRequest($request);
 
@@ -64,9 +64,43 @@ class ProductApiController extends Controller
         ]);
         $response->setContent(json_encode($producto));
             
+        return $response;*/
+        $product = new Producto();
+        $form = $this->createForm(
+            'ProductoBundle\Form\ProductoApiType',
+            $product,
+            [
+                'csrf_protection' => false
+            ]
+        );
+        $form->bind($r);
+        $valid = $form->isValid();
+        $response = new Response();
+        if(false === $valid){
+            $response->setStatusCode(400);
+            $response->setContent(json_encode($this->getFormErrors($form)));
+            return $response;
+        }
+        if (true === $valid) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+            $response->setContent(json_encode($product));
+        }
         return $response;
 
-
+    }
+    public function getFormErrors($form){
+        $errors = [];
+        if (0 === $form->count()){
+            return $errors;
+        }
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = (string) $form[$child->getName()]->getErrors();
+            }
+        }
+        return $errors;
     }
 
     /**
